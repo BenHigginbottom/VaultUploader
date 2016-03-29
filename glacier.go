@@ -22,7 +22,7 @@ func main() {
     svc := glacier.New(session.New(&aws.Config{Region: aws.String("eu-west-1")}))
     for _, vaultName := range vnames {
         _, err := svc.CreateVault(&glacier.CreateVaultInput{
-        VaultName: (vaultName.Name()),
+        VaultName: aws.String(vaultName.Name()),
         })
     if err != nil {
     log.Println(err)
