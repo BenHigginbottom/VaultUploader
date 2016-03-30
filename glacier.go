@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -46,5 +47,14 @@ func main() {
 			return
 		}
 		fmt.Println("Created vault", vaultName.Name())
+		upload, uperr := svc.UploadArchive(&glacier.UploadArchiveInput{
+			VaultName: &vaultName,
+			Body:      bytes.NewReader(make([]byte, 16*1024*1024)), //16Mb Buffer
+		})
+		if uperr != nil {
+			fmt.Println("Error uploading Archive", uperr)
+			return
+		}
+		log.Println("uploaded archive", *upload.ArchiveId)
 	}
 }
