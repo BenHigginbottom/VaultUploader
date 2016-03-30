@@ -48,7 +48,7 @@ func main() {
 		}
 		fmt.Println("Created vault", vaultName.Name())
 		upload, uperr := svc.UploadArchive(&glacier.UploadArchiveInput{
-			VaultName: &vaultName,
+			VaultName: aws.String(vaultName.Name()),
 			Body:      bytes.NewReader(make([]byte, 16*1024*1024)), //16Mb Buffer
 		})
 		if uperr != nil {
