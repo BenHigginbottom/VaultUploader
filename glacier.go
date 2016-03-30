@@ -31,12 +31,11 @@ func main() {
 	}
 
 	svc := glacier.New(session.New(&aws.Config{Region: aws.String("eu-west-1")}))
-	pol, polerr := svc.SetDataRetrievalPolicy(params)
+	_, polerr := svc.SetDataRetrievalPolicy(params)
 	if polerr != nil {
 		fmt.Println(polerr)
 		return
 	}
-	fmt.Println(pol)
 	//And now setup the vaults
 	for _, vaultName := range vnames {
 		_, err := svc.CreateVault(&glacier.CreateVaultInput{
@@ -46,6 +45,6 @@ func main() {
 			log.Println(err)
 			return
 		}
-		fmt.Println("Created vault", vaultName)
+		fmt.Println("Created vault", vaultName.Name())
 	}
 }
